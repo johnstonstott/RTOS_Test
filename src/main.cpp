@@ -2,20 +2,52 @@
 
 #define LED_BUILTIN 2
 
-int count = 0;
+void addNum(void *parameter) {
+  int num = 0;
+  while(true) {
+    num++;
+    // Serial.println("Completed addNum on core " + String(xPortGetCoreID()) + " [" + String(num) + "]");
+    Serial.println("Completed addNum on core " + String(xPortGetCoreID()));
+  }
+}
+
+void subNum(void *parameter) {
+  int num = 32767;
+  while(true) {
+    num--;
+    // Serial.println("Completed subNum on core " + String(xPortGetCoreID()) + " [" + String(num) + "]");
+    Serial.println("Completed subNum on core " + String(xPortGetCoreID()));
+  }
+}
+
+void toggleLED(void *parameter) {
+  int durations[] = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+  int dur = 0;
+  while(true) {
+    if(dur < 9) {
+      dur++;
+    } else {
+      dur = 0;
+    }
+
+    digitalWrite(LED_BUILTIN, HIGH);
+    vTaskDelay(durations[dur]);
+    digitalWrite(LED_BUILTIN, LOW);
+    vTaskDelay(100);
+  }
+
+  Serial.println("Completed toggleLED on core " + String(xPortGetCoreID()));
+}
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
+
   pinMode(LED_BUILTIN, OUTPUT);
+
+  // xTaskCreate(function, task name, stack size (bytes), param to pass, task priority, task handle);
+  xTaskCreate(toggleLED, "Toggle LED", 1000, NULL, 1, NULL);
+  xTaskCreate(addNum, "Add Num", 1000, NULL, 2, NULL);
+  xTaskCreate(subNum, "Sub Num", 1000, NULL, 3, NULL);
 }
 
-void loop() {
-  count++;
-  Serial.println(count);
-  // put your main code here, to run repeatedly:
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(100);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(100);
-}
+void loop() { }

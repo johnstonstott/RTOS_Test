@@ -1,0 +1,21 @@
+Some resources:
+- https://www.freertos.org/FreeRTOS-quick-start-guide.html#page_top 
+- https://www.savjee.be/2020/01/multitasking-esp32-arduino-freertos/
+- http://www.esp32learning.com/code/esp32-and-freertos-example-create-a-task.php 
+- https://icircuit.net/esp32-introduction-freertos/1297 
+- https://github.com/espressif/esp-idf/blob/8bc19ba/components/freertos/include/freertos/task.h 
+- https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html 
+
+Notes on behavior:
+
+When created with xTaskCreate(), the same task can be selected to run on different cores.
+(E.g., task1 will be run on core 0 sometimes and core 1 other times)
+This can be avoided by instead using xTaskCreatePinnedToCore().
+Any code placed in loop() will execute on core 1.
+
+Function signatures:
+xTaskCreate(function, task name, stack size (bytes), param to pass, task priority, task handle)
+xTaskCreatePinnedToCore(function, task name, stack size (bytes), param to pass, task priority, task handle, core)
+
+For the priortiy parameter, lower numbers denote lower priorities (priority 0 means the lowest priortiy).
+Any number of tasks can share the same priority.

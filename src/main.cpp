@@ -6,7 +6,6 @@ void addNum(void *parameter) {
   int num = 0;
   while(true) {
     num++;
-    // Serial.println("Completed addNum on core " + String(xPortGetCoreID()) + " [" + String(num) + "]");
     Serial.println("Completed addNum on core " + String(xPortGetCoreID()));
   }
 }
@@ -15,7 +14,6 @@ void subNum(void *parameter) {
   int num = 32767;
   while(true) {
     num--;
-    // Serial.println("Completed subNum on core " + String(xPortGetCoreID()) + " [" + String(num) + "]");
     Serial.println("Completed subNum on core " + String(xPortGetCoreID()));
   }
 }
@@ -34,9 +32,9 @@ void toggleLED(void *parameter) {
     vTaskDelay(durations[dur]);
     digitalWrite(LED_BUILTIN, LOW);
     vTaskDelay(100);
-  }
 
-  Serial.println("Completed toggleLED on core " + String(xPortGetCoreID()));
+    Serial.println("Completed toggleLED on core " + String(xPortGetCoreID()));
+  }
 }
 
 void setup() {
@@ -44,10 +42,9 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // xTaskCreate(function, task name, stack size (bytes), param to pass, task priority, task handle);
   xTaskCreate(toggleLED, "Toggle LED", 1000, NULL, 1, NULL);
-  xTaskCreate(addNum, "Add Num", 1000, NULL, 2, NULL);
-  xTaskCreate(subNum, "Sub Num", 1000, NULL, 3, NULL);
+  xTaskCreate(addNum, "Add Num", 1000, NULL, 1, NULL);
+  xTaskCreate(subNum, "Sub Num", 1000, NULL, 1, NULL);
 }
 
 void loop() { }

@@ -8,7 +8,7 @@ void task1(void *parameter) {
   xLastWakeTime = xTaskGetTickCount();
 
   while(true) {
-    Serial.println("task1 done");
+    Serial.println("task1 (freq 10) done at " + String(xLastWakeTime));
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
   }
 }
@@ -19,7 +19,7 @@ void task2(void *parameter) {
   xLastWakeTime = xTaskGetTickCount();
 
   while(true) {
-    Serial.println("task2 done");
+    Serial.println("task2 (freq 20) done at " + String(xLastWakeTime));
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
   }
 }
@@ -30,7 +30,7 @@ void task3(void *parameter) {
   xLastWakeTime = xTaskGetTickCount();
 
   while(true) {
-    Serial.println("task3 done");
+    Serial.println("task3 (freq 30) done at " + String(xLastWakeTime));
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
   }
 }

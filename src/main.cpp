@@ -35,6 +35,13 @@ void task3(void *parameter) {
   }
 }
 
+void task4(void *parameter) {
+  while(true) {
+    Serial.println("task4 done at " + String(xTaskGetTickCount()));
+    vTaskDelay(100);
+  }
+}
+
 void toggleLED(void *parameter) {
   while(true) {
     digitalWrite(LED_BUILTIN, HIGH);
@@ -56,6 +63,7 @@ void setup() {
   xTaskCreate(task1, "Task 1", 1000, NULL, 1, NULL);
   xTaskCreate(task2, "Task 2", 1000, NULL, 1, NULL);
   xTaskCreate(task3, "Task 3", 1000, NULL, 1, NULL);
+  xTaskCreate(task4, "Task 4", 1000, NULL, 1, NULL);
 }
 
 void loop() { }
